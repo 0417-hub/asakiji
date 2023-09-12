@@ -19,6 +19,14 @@ class LineBotController < ApplicationController
           if response.code == '200'
             parsed_response = JSON.parse(response.body)
             message = []
+
+            # トレンド上位5記事のみ抽出
+            parsed_response["items"].take(5).each do |item|
+              hash = {}
+              hash[:type] = "text"
+              hash[:text] = item["title"]
+              message.push(hash)
+            end
           client.reply_message(event['replyToken'], message)
         end
       end
