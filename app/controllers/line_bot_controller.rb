@@ -8,6 +8,11 @@ class LineBotController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text
           uri = URI('https://zenn-api.vercel.app/trendTech.json')
+          # リダイレクトをフォローするための設定
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = (uri.scheme == 'https')
+
+          request = Net::HTTP::Get.new(uri)
           client.reply_message(event['replyToken'], message)
         end
       end
