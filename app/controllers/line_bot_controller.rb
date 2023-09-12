@@ -29,7 +29,7 @@ class LineBotController < ApplicationController
               hash[:text] = item["title"]
               message.push(hash)
             end
-          client.reply_message(event['replyToken'], message)
+            client.reply_message(event['replyToken'], message)
           else
             # リクエストが失敗した場合、エラーメッセージを返信
             client.reply_message(event['replyToken'], [{ type: 'text', text: 'データの取得に失敗しました' }])
