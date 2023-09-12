@@ -13,6 +13,12 @@ class LineBotController < ApplicationController
           http.use_ssl = (uri.scheme == 'https')
 
           request = Net::HTTP::Get.new(uri)
+          # リダイレクトをフォローしてレスポンスを取得
+          response = http.request(request)
+          
+          if response.code == '200'
+            parsed_response = JSON.parse(response.body)
+            message = []
           client.reply_message(event['replyToken'], message)
         end
       end
